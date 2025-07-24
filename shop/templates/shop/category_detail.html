@@ -1,0 +1,21 @@
+<!-- templates/shop/category_detail.html -->
+<h1>Категория: {{ category.name }}</h1>
+{% if category.parent %}
+    <p>Родительская категория: <a href="{{ category.parent.get_absolute_url }}">{{ category.parent.name }}</a></p>
+{% endif %}
+<h2>Подкатегории</h2>
+<ul>
+    {% for sub in subcategories %}
+        <li><a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+    {% empty %}
+        <li>Нет подкатегорий</li>
+    {% endfor %}
+</ul>
+<h2>Товары в категории</h2>
+<ul>
+    {% for product in products %}
+        <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
+    {% empty %}
+        <li>Нет товаров</li>
+    {% endfor %}
+</ul>

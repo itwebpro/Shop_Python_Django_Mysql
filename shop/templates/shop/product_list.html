@@ -1,0 +1,39 @@
+<!-- templates/shop/product_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Каталог товаров</title>
+</head>
+<body>
+    <h1>Каталог товаров</h1>
+    <form method="get">
+        <input type="text" name="q" placeholder="Поиск..." value="{{ search_query }}">
+        <select name="sort">
+            <option value="date_added" {% if sort_by == 'date_added' %}selected{% endif %}>По дате добавления</option>
+            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>По названию</option>
+            <option value="price" {% if sort_by == 'price' %}selected{% endif %}>По цене</option>
+        </select>
+        <button type="submit">Поиск</button>
+    </form>
+    <ul>
+        {% for product in page_obj.object_list %}
+            <li>
+                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                Цена: {{ product.price }}<br>
+                Добавлено: {{ product.date_added }}
+            </li>
+        {% empty %}
+            <li>Нет товаров</li>
+        {% endfor %}
+    </ul>
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&sort={{ sort_by }}">Пред.</a>
+        {% endif %}
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&sort={{ sort_by }}">След.</a>
+        {% endif %}
+    </div>
+</body>
+</html>
